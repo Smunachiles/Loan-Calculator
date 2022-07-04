@@ -1,4 +1,3 @@
-let tracker = [];
 
 const principle = document.getElementById('amount');
 const interest = document.getElementById('interest');
@@ -12,12 +11,12 @@ const formLoan = document.getElementById('loan-form');
 const inputFields = document.getElementsByClassName('input');
 const errMesages = document.getElementsByClassName('error-message');
 
+const inputs = Array.from(inputFields);
 // Lunch function
 lunchProgram()
 
 // Lunch function
 function lunchProgram() {
-  const inputs = Array.from(inputFields);
   // Check error on principle
   inputs.forEach(input => {
     input.addEventListener('keyup', inputErrHandler);
@@ -39,17 +38,14 @@ function inputErrHandler(e) {
       if(input >= 50 && input < 50000) {
         borderColor['border-color'] = 'green';
         errMesages[0].innerText = '';
-        tracker.push(1);
       } else {
         borderColor['border-color'] = 'red';
         errMesages[0].innerText = 'Amount should not be less than $50 or more than $50,000';
-        tracker.pop();
         // Hide results
         resultDiv.style.display = 'none';
-
-        if (isNaN(input)) {
-          errMesages[0].innerText = 'invalid Input';
-        }
+      }
+      if (isNaN(input)) {
+        errMesages[0].innerText = 'invalid Input';
       }
       // Checks for empty input
       if (input == '') {
@@ -61,17 +57,14 @@ function inputErrHandler(e) {
       if(input >= 0 && input <= 100) {
         borderColor['border-color'] = 'green';
         errMesages[1].innerText = '';
-        tracker.push(1);
       } else {
         borderColor['border-color'] = 'red';
         errMesages[1].innerText = 'interest is from 0 to 100';
-        tracker.pop();
         // Hide results
         resultDiv.style.display = 'none';
-
-        if (isNaN(input)) {
-          errMesages[1].innerText = 'invalid Input';
-        }
+      }
+      if (isNaN(input)) {
+        errMesages[1].innerText = 'invalid Input';
       }
       // Checks for empty input
       if (input == '') {
@@ -83,17 +76,14 @@ function inputErrHandler(e) {
       if(input > 0 && input <= 12) {
         borderColor['border-color'] = 'green';
         errMesages[2].innerText = '';
-        tracker.push(1);
       } else {
         borderColor['border-color'] = 'red';
         errMesages[2].innerText = 'Duration should be 0 to 12 years';
-        tracker.pop();
         // Hide results
         resultDiv.style.display = 'none';
-
-        if (isNaN(input)) {
-          errMesages[2].innerText = 'invalid Input';
-        }
+      }
+      if (isNaN(input)) {
+        errMesages[2].innerText = 'invalid Input';
       }
       
       // Checks for empty input
@@ -106,21 +96,19 @@ function inputErrHandler(e) {
         break;
       }
   
+      // checks if input is a number
+      if (isNaN(input) === true) {
+        // Hide results
+        resultDiv.style.display = 'none';
+      }
 
-  // Always keeps the length of the array to be three
-  if (tracker.length > 3 || isNaN(input) === true) {
-    tracker.pop();
-    // Hide results
-    resultDiv.style.display = 'none';
-  }
-  
-  // checks the length of the array
-  if (tracker.length === 3) {
-    createLoan.classList.remove('disabled');
-  } else {
-    createLoan.classList.add('disabled');
-  }
-
+      inputs.forEach(input => {
+        if (input.style['border-color'] === 'green') {
+          createLoan.classList.remove('disabled');
+        } else {
+          createLoan.classList.add('disabled');
+        }
+      })
 }
 
 // Event on form submit
