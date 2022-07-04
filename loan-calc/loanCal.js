@@ -22,7 +22,10 @@ function lunchProgram() {
     input.addEventListener('keyup', inputErrHandler);
   })
   // Event on form submit (create loan)
-  createLoan.addEventListener('click', createLoanEvent)
+  createLoan.addEventListener('click', createLoanEvent);
+
+  // disable Submit button
+  createLoan.setAttribute('disabled', 'disabled');
 }
 
 // Error Handler for the inputs
@@ -38,11 +41,18 @@ function inputErrHandler(e) {
       if(input >= 50 && input < 50000) {
         borderColor['border-color'] = 'green';
         errMesages[0].innerText = '';
+
+        // Consider the other input fields
+        if (interest.style['border-color'].includes('green') && duration.style['border-color'].includes('green')) {
+          createLoan.removeAttribute('disabled');
+        }
       } else {
         borderColor['border-color'] = 'red';
         errMesages[0].innerText = 'Amount should not be less than $50 or more than $50,000';
         // Hide results
         resultDiv.style.display = 'none';
+        // disable Submit button
+        createLoan.setAttribute('disabled', 'disabled');
       }
       if (isNaN(input)) {
         errMesages[0].innerText = 'invalid Input';
@@ -57,11 +67,18 @@ function inputErrHandler(e) {
       if(input >= 0 && input <= 100) {
         borderColor['border-color'] = 'green';
         errMesages[1].innerText = '';
+
+        // Consider the other input fields
+        if (principle.style['border-color'].includes('green') && duration.style['border-color'].includes('green')) {
+          createLoan.removeAttribute('disabled');
+        }
       } else {
         borderColor['border-color'] = 'red';
         errMesages[1].innerText = 'interest is from 0 to 100';
         // Hide results
         resultDiv.style.display = 'none';
+        // disable Submit button
+        createLoan.setAttribute('disabled', 'disabled');
       }
       if (isNaN(input)) {
         errMesages[1].innerText = 'invalid Input';
@@ -76,11 +93,18 @@ function inputErrHandler(e) {
       if(input > 0 && input <= 12) {
         borderColor['border-color'] = 'green';
         errMesages[2].innerText = '';
+
+        // Consider the other input fields
+        if (interest.style['border-color'].includes('green') && principle.style['border-color'].includes('green')) {
+          createLoan.removeAttribute('disabled');
+        }
       } else {
         borderColor['border-color'] = 'red';
         errMesages[2].innerText = 'Duration should be 0 to 12 years';
         // Hide results
         resultDiv.style.display = 'none';
+        // disable Submit button
+        createLoan.setAttribute('disabled', 'disabled');
       }
       if (isNaN(input)) {
         errMesages[2].innerText = 'invalid Input';
@@ -95,21 +119,8 @@ function inputErrHandler(e) {
       default:
         break;
       }
-  
-      // checks if input is a number
-      if (isNaN(input) === true) {
-        // Hide results
-        resultDiv.style.display = 'none';
-      }
-
-      inputs.forEach(input => {
-        if (input.style['border-color'] === 'green') {
-          createLoan.classList.remove('disabled');
-        } else {
-          createLoan.classList.add('disabled');
-        }
-      })
 }
+
 
 // Event on form submit
 function createLoanEvent(e) {
